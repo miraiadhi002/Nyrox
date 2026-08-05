@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Under Construction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#060608;
+    --lav-dark:#4a3d78;
+    --lav-light:#cdbdfb;
+    --ink:#efe9fb;
+    --ink-dim:#8f84ad;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{
+    height:100%;
+    background:var(--black);
+    overflow:hidden;
+    font-family:'Figtree', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+
+  body{
+    position:relative;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    cursor:pointer;
+  }
+
+  .glow{
+    position:fixed;
+    inset:0;
+    background: radial-gradient(ellipse 40% 32% at 50% 44%, rgba(74,61,120,0.35), transparent 65%);
+    z-index:0;
+    transition: opacity .9s ease;
+  }
+
+  /* ---------- stage ---------- */
+
+  .stage{
+    position:relative;
+    z-index:10;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 6vh 8vw;
+    transition: transform 1.05s cubic-bezier(.6,0,.9,1), filter 1.05s ease, opacity .95s ease;
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    font-weight:600;
+    margin-bottom:26px;
+    opacity:0;
+    animation: riseIn .8s .2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  .title{
+    font-size: clamp(38px, 9.5vw, 92px);
+    font-weight:800;
+    line-height:1.02;
+    letter-spacing:-.01em;
+    color:var(--ink);
+    opacity:0;
+    transform: translateY(16px);
+    animation: riseIn .9s .32s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  .title em{
+    font-style:normal;
+    color:var(--lav-light);
+  }
+
+  .status{
+    margin-top:34px;
+    font-size:14px;
+    font-weight:400;
+    color:var(--ink-dim);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    opacity:0;
+    transform: translateY(10px);
+    animation: riseIn .9s .56s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  .dots span{
+    display:inline-block;
+    width:4px; height:4px;
+    border-radius:50%;
+    background:var(--lav-light);
+    margin-right:4px;
+    animation: dotPulse 1.4s ease-in-out infinite;
+  }
+  .dots span:nth-child(2){ animation-delay:.2s; }
+  .dots span:nth-child(3){ animation-delay:.4s; }
+  @keyframes dotPulse{
+    0%,60%,100%{ opacity:.25; transform:scale(.8); }
+    30%{ opacity:1; transform:scale(1.15); }
+  }
+
+  @keyframes riseIn{ to{ opacity:1; transform:none; } }
+
+  /* ================= gargantua sequence ================= */
+
+  .vortex{
+    position:fixed;
+    inset:0;
+    z-index:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+    transform: translateY(-120vh) scale(.4);
+    transition: opacity .5s ease, transform 1.6s cubic-bezier(.16,1,.3,1);
+  }
+
+  .hole{
+    position:relative;
+    width:20vh; height:20vh;
+    transition: width 1.15s cubic-bezier(.6,0,.85,1), height 1.15s cubic-bezier(.6,0,.85,1);
+  }
+
+  /* accretion disk — back half (arcs behind + over the top, lensed) */
+  .disk-back{
+    position:absolute;
+    left:50%; top:50%;
+    width:340%; height:78%;
+    transform: translate(-50%,-50%) rotate(-6deg) scaleY(0.34);
+    border-radius:50%;
+    border:2.5vh solid transparent;
+    border-top-color: var(--lav-light);
+    border-bottom-color: var(--lav-dark);
+    box-shadow: 0 0 6vh 0.4vh rgba(205,189,251,0.35);
+    opacity:.9;
+    z-index:1;
+    animation: ringSpin 26s linear infinite;
+  }
+
+  /* event horizon + photon ring */
+  .sphere{
+    position:absolute;
+    left:50%; top:50%;
+    width:56%; height:56%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:#000;
+    box-shadow:
+      0 0 0 0.4vh rgba(239,233,251,0.9),
+      0 0 2.2vh 0.6vh var(--lav-light),
+      0 0 9vh 3vh rgba(74,61,120,0.6),
+      0 0 22vh 8vh rgba(0,0,0,0.9);
+    z-index:2;
+  }
+
+  /* accretion disk — front sliver (crosses in front of the lower half) */
+  .disk-front{
+    position:absolute;
+    left:50%; top:58%;
+    width:340%; height:78%;
+    transform: translate(-50%,-50%) rotate(-6deg) scaleY(0.34);
+    border-radius:50%;
+    border:2.2vh solid transparent;
+    border-bottom-color: var(--lav-light);
+    -webkit-mask-image: linear-gradient(to top, black 0%, black 40%, transparent 55%);
+    mask-image: linear-gradient(to top, black 0%, black 40%, transparent 55%);
+    box-shadow: 0 0 5vh 0.3vh rgba(205,189,251,0.4);
+    opacity:.95;
+    z-index:3;
+    animation: ringSpin 26s linear infinite;
+  }
+
+  @keyframes ringSpin{
+    from{ transform: translate(-50%,-50%) rotate(-6deg) scaleY(0.34); }
+    to{ transform: translate(-50%,-50%) rotate(354deg) scaleY(0.34); }
+  }
+
+  /* subtle always-on gravitational shimmer */
+  .hole{ animation: breatheHole 3.4s ease-in-out infinite; }
+  @keyframes breatheHole{
+    0%,100%{ filter: none; }
+    50%{ filter: url(#warpSoft); }
+  }
+
+  body[data-phase="descend"] .vortex{ opacity:1; transform: translateY(0) scale(.55); }
+  body[data-phase="descend"] .hole{ filter: url(#warpSoft); }
+
+  body[data-phase="consume"] .vortex{ opacity:1; transform: translateY(0) scale(1); }
+  body[data-phase="consume"] .hole{ width:120vh; height:120vh; filter: url(#warpHard); }
+
+  body[data-phase="consume"] .glow,
+  body[data-phase="void"] .glow{ opacity:0; }
+
+  body[data-phase="consume"] .stage,
+  body[data-phase="void"] .stage{
+    transform: scale(0.03, 0.2) rotate(7deg);
+    filter: url(#warpSoft) blur(1px) brightness(1.8);
+    opacity:0;
+  }
+
+  .void{
+    position:fixed;
+    inset:0;
+    z-index:900;
+    background: #ffffff;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .85s ease .55s;
+  }
+  body[data-phase="void"] .void{ opacity:1; pointer-events:auto; }
+  body[data-phase="void"] .vortex{ opacity:0; }
+
+
+</style>
+</head>
+<body data-phase="idle">
+
+  <!-- gravitational warp filters -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <filter id="warpSoft" x="-50%" y="-50%" width="200%" height="200%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="7" result="n">
+          <animate attributeName="baseFrequency" values="0.010 0.025;0.018 0.04;0.010 0.025" dur="3.4s" repeatCount="indefinite"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+      </filter>
+      <filter id="warpHard" x="-80%" y="-80%" width="260%" height="260%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="3" seed="11" result="n">
+          <animate attributeName="baseFrequency" values="0.006 0.016;0.014 0.03;0.006 0.016" dur="1.6s" repeatCount="indefinite"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="34"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="glow"></div>
+
+  <main class="stage">
+    <p class="eyebrow">Coming Soon</p>
+    <h1 class="title">Under<br><em>Construction</em></h1>
+    <p class="status">A little more time, please <span class="dots"><span></span><span></span><span></span></span></p>
+  </main>
+
+  <div class="vortex">
+    <div class="hole">
+      <div class="disk-back"></div>
+      <div class="sphere"></div>
+      <div class="disk-front"></div>
+    </div>
+  </div>
+
+  <div class="void"></div>
+
+  <script>
+    let tapCount = 0;
+    let tapTimer = null;
+    let phase = 'idle';
+    let busy = false;
+
+    function registerTap(){
+      if(busy) return;
+      tapCount++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(()=>{ tapCount = 0; }, 900);
+
+      if(tapCount >= 3){
+        tapCount = 0;
+        if(phase === 'idle') consume();
+        else if(phase === 'void') restore();
+      }
+    }
+
+    function setPhase(p){
+      phase = p;
+      document.body.setAttribute('data-phase', p);
+    }
+
+    function consume(){
+      busy = true;
+      setPhase('descend');
+      setTimeout(()=>{
+        setPhase('consume');
+        setTimeout(()=>{ setPhase('void'); busy = false; }, 1300);
+      }, 1700);
+    }
+
+    function restore(){
+      busy = true;
+      setPhase('consume');
+      setTimeout(()=>{
+        setPhase('descend');
+        setTimeout(()=>{ setPhase('idle'); busy = false; }, 1700);
+      }, 900);
+    }
+
+    document.addEventListener('click', registerTap);
+    document.addEventListener('touchend', registerTap, { passive:true });
+  </script>
+
+</body>
+</html>
